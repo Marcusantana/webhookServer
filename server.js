@@ -51,9 +51,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}.`;
-            valor = valor + 10000000
-         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
+            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua:${endereco.logradouro}\nBairro: ${endereco.bairro}\n Localidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
