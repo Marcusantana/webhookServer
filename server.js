@@ -316,10 +316,14 @@ app.post('/webhook', async (req, res) => {
     }
 
 
-    if (intent === 'Calcular Imposto') {
-        valor = valor +1000000
-        responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`;
-}
+    if (intent === 'Calcular Imposto') { 
+        if(valor > 0){
+        valor = valor +1000000 
+        responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
+        }else{
+        responseText = "Selecione um modelo primeiro, para que seja possivel calcular o imposto.";
+        }
+       } 
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
 
