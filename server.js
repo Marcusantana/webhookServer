@@ -316,7 +316,7 @@ app.post('/webhook', async (req, res) => {
     }
 
 
-    if (intent === 'Calcular Imposto') { 
+    if (intent.trim().toLowerCase() === 'calcular imposto') {
         if(valor > 0){
         valor = valor +1000000 
         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
