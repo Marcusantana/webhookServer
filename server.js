@@ -11,17 +11,58 @@ app.post('/webhook', async (req, res) => {
     console.log('Requisição recebida: ', req.body);
 
     const intent = req.body.queryResult.intent.displayName;
-    var userQuery = req.body.queryResult.queryText.toLowerCase(); 
+    const userQuery = req.body.queryResult.queryText.toLowerCase();
 
-     let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
+    if (intent === 'Buscar CEP') {
+        let cep = req.body.queryResult.parameters['zip-code'];
+
+        console.log("cep recebido: ", cep);
+
+        if (!cep) {
+            return res.json({ fulfillmentText: "Por favor, informe o CEP." });
+        }
+
+        cep = cep.replace(/\D/g, '');
+
+        console.log("cep limpo: ", cep);
+        console.log("tamanho do cep: ", cep.length);
+
+        if (cep.length !== 8) {
+            return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
+        }
+
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+
+            if (response.data && response.data.erro) {
+                return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
+            }
+
+            const endereco = response.data;
+            const mensagem = `Aqui está o endereço para o CEP ${cep}: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}.`;
+
+            return res.json({ fulfillmentText: mensagem });
+        } catch (error) {
+            if (error.response) {
+                console.error('Erro na resposta da API:', error.response.status, error.response.data);
+            } else if (error.request) {
+                console.error('Nenhuma resposta da API:', error.request);
+            } else {
+                console.error('Erro na configuração da requisição:', error.message);
+            }
+            return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
+        }
+    }
 
     if (intent === 'Modelos') {
-        var valor = 0;
+        let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
+        let valor = 0;
 
-        if (userQuery === ("mayones")) {  //MAYONES
+        // ... (seu código de consulta de modelos aqui) ...
+        if (userQuery === ("mayones")) {
             valor = 7921.99;
             responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).`;
-        }
+        } // ... (resto das condições) ...
 
         else if (userQuery.includes("standard"))  {  
             valor = 7921.99;
@@ -257,52 +298,7 @@ app.post('/webhook', async (req, res) => {
             responseText = `Sábia escolha! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e as SIGNATURE).`;
         }
 
-        
-    
-        
-    } 
-
-
-
-    if (intent === 'Buscar CEP') {
-        let cep = req.body.queryResult.parameters['zip-code']; // Correção: Busca pelo parâmetro 'zip-code'
-
-        console.log("cep recebido: ", cep);
-
-        if (!cep) {
-            return res.json({ fulfillmentText: "Por favor, informe o CEP." });
-        }
-
-        cep = cep.replace(/\D/g, ''); // Remove caracteres não numéricos
-
-        console.log("cep limpo: ", cep);
-        console.log("tamanho do cep: ", cep.length);
-
-        if (cep.length !== 8) {
-            return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
-        }
-
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-
-            if (response.data && response.data.erro) {
-                return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
-            }
-
-            const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}.`;
-
-            return res.json({ fulfillmentText: mensagem });
-        } catch (error) {
-            if (error.response) {
-                console.error('Erro na resposta da API:', error.response.status, error.response.data);
-            } else if (error.request) {
-                console.error('Nenhuma resposta da API:', error.request);
-            } else {
-                console.error('Erro na configuração da requisição:', error.message);
-            }
-            return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
-        }
+        return res.json({ fulfillmentText: responseText });
     }
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
@@ -312,16 +308,6 @@ app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
 
-   return res.json({ fulfillmentText: responseText });
-
-
-// Iniciar o servidor
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-});
-
-// Função para formatar moeda corretamente
 function formatarMoeda(valor) {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
 }
-
