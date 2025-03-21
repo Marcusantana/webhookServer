@@ -321,7 +321,7 @@ app.post('/webhook', async (req, res) => {
         let icms = 0.18 * base_icms
         let total_equipamento = icms + base_icms
         let imposto_total = ipi + pis + cofins +icms
-        responseText = `Ótimo! EQUIPAMENTO: ${userQuery.toUpperCase()}\n\nImpostos:\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\n\nVALOR TOTAL DOS IMPOSTOS: ${formatarMoeda(imposto_total)}\nVALOR TOTAL DO EQUIPAMENTO: ${formatarMoeda(total_equipamento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+        responseText = `Segue abaixo a relação dos preços: PREÇO DO EQUIPAMENTO: ${formatarMoeda(contexto.valorInstrumento)}\n\nImpostos:\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\n\nVALOR TOTAL DOS IMPOSTOS: ${formatarMoeda(imposto_total)}\nVALOR TOTAL DO EQUIPAMENTO: ${formatarMoeda(total_equipamento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         return res.json({ fulfillmentText: responseText });
     }
 
