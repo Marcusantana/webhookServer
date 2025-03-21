@@ -309,7 +309,8 @@ app.post('/webhook', async (req, res) => {
         return res.json({ fulfillmentText: responseText });
     }
 
-    if (intent === 'Teste') {
+    if (intent === 'Calcular Imposto') {
+        valor = valor + 1000000;
         let responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         return res.json({ fulfillmentText: responseText });
     }
