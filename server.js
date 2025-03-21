@@ -13,12 +13,21 @@ app.post('/webhook', async (req, res) => {
     const intent = req.body.queryResult.intent.displayName;
 
     if (intent === 'Buscar CEP') {
-        const cep = req.body.queryResult.parameters.cep;
+        let cep = req.body.queryResult.parameters.cep;
+
+        if (!cep) {
+            return res.json({ fulfillmentText: "Por favor, informe o CEP." });
+        }
+
+        cep = cep.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+        if (cep.length !== 8) {
+            return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
+        }
 
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
-            // Correção: Verifica se a propriedade 'erro' existe e é verdadeira
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
@@ -28,7 +37,13 @@ app.post('/webhook', async (req, res) => {
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
-            console.error('Erro ao buscar o CEP:', error.message);
+            if (error.response) {
+                console.error('Erro na resposta da API:', error.response.status, error.response.data);
+            } else if (error.request) {
+                console.error('Nenhuma resposta da API:', error.request);
+            } else {
+                console.error('Erro na configuração da requisição:', error.message);
+            }
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
     }
