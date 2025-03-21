@@ -64,6 +64,9 @@ app.post('/webhook', async (req, res) => {
             }
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
+
+        valor = valor + 10000000
+         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
     }
 
     if (intent === 'Modelos') {
