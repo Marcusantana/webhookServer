@@ -67,9 +67,10 @@ app.post('/webhook', async (req, res) => {
 
     }
 
+    let valor = 0;
+
     if (intent === 'Modelos') {
         let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
-        let valor = 0;
 
         // ... (seu código de consulta de modelos aqui) ...
         if (userQuery === ("mayones")) {
@@ -314,13 +315,14 @@ app.post('/webhook', async (req, res) => {
         return res.json({ fulfillmentText: responseText });
     }
 
-     if (intent === 'Calcular Imposto') {
-         valor = valor + 10000000
-         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)`};
-     }
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
 });
+
+    if (intent === 'Modelos') {
+        valor = valor +1000000
+        responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`;
+}
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
