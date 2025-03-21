@@ -65,9 +65,20 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
 
+
     }
 
     let valor = 0;
+
+    if (intent.trim().toLowerCase() === 'calcular imposto') {
+        if(valor > 0){
+        valor = valor +1000000 
+        responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
+        }else{
+        responseText = "Selecione um modelo primeiro, para que seja possivel calcular o imposto.";
+        }
+       } 
+
 
     if (intent === 'Modelos') {
         let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
@@ -314,16 +325,6 @@ app.post('/webhook', async (req, res) => {
 
         return res.json({ fulfillmentText: responseText });
     }
-
-
-    if (intent.trim().toLowerCase() === 'calcular imposto') {
-        if(valor > 0){
-        valor = valor +1000000 
-        responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
-        }else{
-        responseText = "Selecione um modelo primeiro, para que seja possivel calcular o imposto.";
-        }
-       } 
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
 
