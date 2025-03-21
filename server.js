@@ -12,7 +12,19 @@ app.post('/webhook', async (req, res) => {
 
     const intent = req.body.queryResult.intent.displayName;
     const userQuery = req.body.queryResult.queryText.toLowerCase();
+    const callbackData = req.body.callback_query?.data;
 
+
+    if (callbackData === 'buscar_cep') {
+        return res.json({
+            followupEventInput: {
+                name: 'BUSCAR_CEP_EVENT', // Nome do evento que você criará no Dialogflow
+                languageCode: 'pt-BR'
+            }
+        });
+    }
+
+    
     if (intent === 'Buscar CEP') {
         let cep = req.body.queryResult.parameters['zip-code'];
 
