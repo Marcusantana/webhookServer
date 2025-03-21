@@ -53,7 +53,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR para fazer a simulação do calculo de imposto.`;
+            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -73,7 +73,7 @@ app.post('/webhook', async (req, res) => {
        if (userQuery === ("mayones")) {
             contexto.valorInstrumento = 7921.99;
             responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        } 
+        } // ... (resto das condições) ...
 
         else if (userQuery.includes("standard"))  {  
             contexto.valorInstrumento = 7921.99;
@@ -313,16 +313,33 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Calcular Imposto') {
+
+        const response = {
+            fulfillmentMessages: [
+              {
+                payload: {
+                  telegram: {
+                    text: 'Clique no botão para acessar o link:',
+                    reply_markup: {
+                      inline_keyboard: [[{ text: 'Acessar Link', url: 'URL_DO_SEU_LINK' }]],
+                    },
+                  },
+                },
+              },
+            ],
+          };
+          res.send(response)
+
         let ipi = 0.10 * contexto.valorInstrumento;
         let ipi_total = contexto.valorInstrumento + ipi;
         let pis = 0.021 * ipi_total
         let cofins = 0.0965 * ipi_total;
         let base_icms = ipi_total + pis + cofins
         let icms = 0.18 * base_icms
-        let total_equipamento = icms + base_icms
-        let imposto_total = ipi + pis + cofins +icms
-        responseText = `Segue abaixo a relação dos preços: PREÇO DO EQUIPAMENTO: ${formatarMoeda(contexto.valorInstrumento)}\n\nImpostos:\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\n\nVALOR TOTAL DOS IMPOSTOS: ${formatarMoeda(imposto_total)}\nVALOR TOTAL DO EQUIPAMENTO: ${formatarMoeda(total_equipamento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+        let imposto_total = icms + base_icms
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         return res.json({ fulfillmentText: responseText });
+        
     }
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
