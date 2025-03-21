@@ -51,7 +51,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua:${endereco.logradouro}\nBairro: ${endereco.bairro}\n Localidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -313,6 +313,11 @@ app.post('/webhook', async (req, res) => {
 
         return res.json({ fulfillmentText: responseText });
     }
+
+     if (intent === 'Calcular Imposto') {
+         valor = valor + 10000000
+         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)`};
+     }
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
 });
