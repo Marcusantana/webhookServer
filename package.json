@@ -13,8 +13,8 @@
   "dependencies": {
     "axios": "^1.8.4",
     "body-parser": "^1.20.3",
+    "busca-cep": "^0.5.0",
     "express": "^4.21.2",
-    "mathjs": "^14.3.1",
-    "buscar-cep": "^0.5.0"
+    "mathjs": "^14.3.1"
   }
 }
