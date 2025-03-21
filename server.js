@@ -29,7 +29,7 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
             console.error('Erro ao buscar o CEP:', error.message);
-            return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
+            return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde."+endereco.logradouro });
         }
     }
 
