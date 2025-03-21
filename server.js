@@ -13,13 +13,18 @@ app.post('/webhook', async (req, res) => {
     const intent = req.body.queryResult.intent.displayName;
 
     if (intent === 'Buscar CEP') {
-        let cep = req.body.queryResult.parameters.cep;
+        let cep = req.body.queryResult.parameters['zip-code']; // Correção: Busca pelo parâmetro 'zip-code'
+
+        console.log("cep recebido: ", cep);
 
         if (!cep) {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
         cep = cep.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+        console.log("cep limpo: ", cep);
+        console.log("tamanho do cep: ", cep.length);
 
         if (cep.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
