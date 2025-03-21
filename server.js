@@ -7,31 +7,24 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
-// Objeto para armazenar o estado da conversa (valor do instrumento)
-const estadosConversa = {};
-
 app.post('/webhook', async (req, res) => {
     console.log('Requisição recebida: ', req.body);
 
-    const sessionId = req.body.sessionInfo.sessionId; // Obtém o ID da sessão
     const intent = req.body.queryResult.intent.displayName;
     const userQuery = req.body.queryResult.queryText.toLowerCase();
     const callbackData = req.body.callback_query?.data;
 
-    // Inicializa o estado da conversa se não existir
-    if (!estadosConversa[sessionId]) {
-        estadosConversa[sessionId] = { valor: 0 };
-    }
 
     if (callbackData === 'buscar_cep') {
         return res.json({
             followupEventInput: {
-                name: 'BUSCAR_CEP_EVENT',
+                name: 'BUSCAR_CEP_EVENT', // Nome do evento que você criará no Dialogflow
                 languageCode: 'pt-BR'
             }
         });
     }
 
+    
     if (intent === 'Buscar CEP') {
         let cep = req.body.queryResult.parameters['zip-code'];
 
@@ -71,25 +64,21 @@ app.post('/webhook', async (req, res) => {
             }
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
+
     }
 
-    // Verifica se o usuário confirmou o CEP
-    if (intent === 'Calcular Imposto' && req.body.queryResult.outputContexts && req.body.queryResult.outputContexts.some(context => context.name.endsWith('/contexts/buscarcep-followup'))) {
-        estadosConversa[sessionId].valor += 100000; // Aumenta o valor em 100000
-        return res.json({ fulfillmentText: `Valor do instrumento atualizado: ${formatarMoeda(estadosConversa[sessionId].valor)}` });
-    }
+    let valor = 0;
 
-    // Restante da lógica para a intent 'Modelos'
     if (intent === 'Modelos') {
         let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
 
         // ... (seu código de consulta de modelos aqui) ...
         if (userQuery === ("mayones")) {
-            estadosConversa[sessionId].valor = 7921.99;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(estadosConversa[sessionId].valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+            valor = 7921.99;
+            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         } // ... (resto das condições) ...
 
-          else if (userQuery.includes("standard"))  {  
+        else if (userQuery.includes("standard"))  {  
             valor = 7921.99;
             responseText = `Lindo! As guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         }
@@ -326,8 +315,17 @@ app.post('/webhook', async (req, res) => {
         return res.json({ fulfillmentText: responseText });
     }
 
+    if (intent === 'Teste') {
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+
+    }
+    
+
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
+
 });
+
+
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
