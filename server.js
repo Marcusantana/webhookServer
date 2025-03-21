@@ -52,6 +52,8 @@ app.post('/webhook', async (req, res) => {
 
             const endereco = response.data;
             const mensagem = `Aqui está o endereço para o CEP ${cep}: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}.`;
+            valor = valor + 10000000
+         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -65,8 +67,6 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
 
-        valor = valor + 10000000
-         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`; 
     }
 
     if (intent === 'Modelos') {
