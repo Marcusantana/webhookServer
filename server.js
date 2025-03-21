@@ -14,17 +14,15 @@ app.post('/webhook', async (req, res) => {
     const userQuery = req.body.queryResult.queryText.toLowerCase();
     const callbackData = req.body.callback_query?.data;
 
-
     if (callbackData === 'buscar_cep') {
         return res.json({
             followupEventInput: {
-                name: 'BUSCAR_CEP_EVENT', // Nome do evento que você criará no Dialogflow
+                name: 'BUSCAR_CEP_EVENT',
                 languageCode: 'pt-BR'
             }
         });
     }
 
-    
     if (intent === 'Buscar CEP') {
         let cep = req.body.queryResult.parameters['zip-code'];
 
@@ -64,16 +62,12 @@ app.post('/webhook', async (req, res) => {
             }
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
-
     }
 
     let valor = 0;
 
     if (intent === 'Modelos') {
-        let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
-
-        // ... (seu código de consulta de modelos aqui) ...
-        if (userQuery === ("mayones")) {
+       if (userQuery === ("mayones")) {
             valor = 7921.99;
             responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         } // ... (resto das condições) ...
@@ -316,16 +310,12 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Teste') {
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-
+        let responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+        return res.json({ fulfillmentText: responseText });
     }
-    
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
-
 });
-
-
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
