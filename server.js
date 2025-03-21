@@ -313,7 +313,7 @@ app.listen(port, () => {
 });
 
    return res.json({ fulfillmentText: responseText });
-});
+
 
 // Iniciar o servidor
 app.listen(port, () => {
