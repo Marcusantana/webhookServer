@@ -53,7 +53,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR para fazer a simulação do calculo de imposto.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
