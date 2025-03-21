@@ -73,7 +73,7 @@ app.post('/webhook', async (req, res) => {
         // ... (seu código de consulta de modelos aqui) ...
         if (userQuery === ("mayones")) {
             valor = 7921.99;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(valor)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nDeseja simular os impostos de importação e frete?`;
+           
         } // ... (resto das condições) ...
 
         else if (userQuery.includes("standard"))  {  
