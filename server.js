@@ -316,13 +316,16 @@ app.post('/webhook', async (req, res) => {
     }
 
 
-    return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
-});
-
-    if (intent === 'Modelos') {
+    if (intent === 'Calcular Imposto') {
         valor = valor +1000000
         responseText = `O valor da guitarra ${userQuery.toUpperCase()} é: ${formatarMoeda(valor)}`;
 }
+
+    return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
+
+});
+
+
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
