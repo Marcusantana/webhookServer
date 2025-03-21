@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const axios = require('axios'); // Importando axios
+const axios = require('axios');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,14 +11,15 @@ app.post('/webhook', async (req, res) => {
     console.log('Requisição recebida: ', req.body);
 
     const intent = req.body.queryResult.intent.displayName;
-    
+
     if (intent === 'Buscar CEP') {
-        const cep = req.body.queryResult.parameters.cep; // Obtém o CEP enviado pelo Dialogflow
+        const cep = req.body.queryResult.parameters.cep;
 
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
 
-            if (response.data.erro) {
+            // Correção: Verifica se a propriedade 'erro' existe e é verdadeira
+            if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
 
