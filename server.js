@@ -19,6 +19,7 @@ app.post('/webhook', async (req, res) => {
 
     const intent = req.body.queryResult.intent.displayName;
     const userQuery = req.body.queryResult.queryText.toLowerCase();
+    let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
     const callbackData = req.body.callback_query?.data;
 
     let endereco; 
