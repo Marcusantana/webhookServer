@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 const contexto = {
     valorInstrumento: 0,
     cep : null,
+    cepLimpo : null,
     frete : 0
 };
 
@@ -30,7 +31,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Buscar CEP') {
-        contexto.cep = req.body.queryResult.parameters['zip-code'];
+        contexto.cep = req.body.queryResult.parameters['number'];
 
         console.log("cep recebido: ", contexto.cep);
 
@@ -38,17 +39,17 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
-        const cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
+        contexto.cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
 
-        console.log("cep limpo: ", cepLimpo);
-        console.log("tamanho do cep: ", cepLimpo.length);
+        console.log("cep limpo: ", contexto.cepLimpo);
+        console.log("tamanho do cep: ", contexto.cepLimpo.length);
 
-        if (cepLimpo.length !== 8) {
+        if (contexto.cepLimpo.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); // Usa cepLimpo
+            const response = await axios.get(`https://viacep.com.br/ws/${contexto.cepLimpo}/json/`); // Usa cepLimpo
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
@@ -316,7 +317,7 @@ app.post('/webhook', async (req, res) => {
 
     if (intent === 'Calcular Imposto') {
         
-        const cepNumerico = parseInt(contexto.cep);
+        const cepNumerico = parseInt(contexto.cepLimpo);
 
         if (cepNumerico >= 11000000 && cepNumerico <= 19999999|| cepNumerico >= 90000000 && cepNumerico <= 99999999 || cepNumerico >= 88000000 && cepNumerico <= 89999999){
             contexto.frete = 129.99
@@ -353,7 +354,7 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins
         let icms = 0.18 * base_icms
         let imposto_total = icms + base_icms
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cep} O FRETE É ${contexto.frete} O TIPO DE DADO É ${typeof cepNumerico}`;
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cepLimpo} O FRETE É ${contexto.frete} O TIPO DE DADO É ${typeof cepNumerico}`;
         return res.json({ fulfillmentText: responseText });
     }
 
