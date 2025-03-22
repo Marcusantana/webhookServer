@@ -354,11 +354,8 @@ app.post('/webhook', async (req, res) => {
         
         endereco = response.data; // Atribui o valor de response.data à variável 'endereco'
         const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
-
-        return res.json({ fulfillmentText: mensagem });
 }
-
-    return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
+    return res.json({ fulfillmentText: mensagem });
 });
 
 app.listen(port, () => {
