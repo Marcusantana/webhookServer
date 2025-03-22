@@ -10,6 +10,7 @@ app.use(bodyParser.json());
 const contexto = {
     valorInstrumento: 0,
     cep : null,
+    cepLimpo : null,
     frete : 0
 };
 
@@ -30,7 +31,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Buscar CEP') {
-        contexto.cep = req.body.queryResult.parameters['number'];
+        contexto.cep = req.body.queryResult.parameters['zip-code'];
 
         console.log("cep recebido: ", contexto.cep);
 
@@ -38,17 +39,17 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
-        const cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
+        contexto.cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
 
-        console.log("cep limpo: ", cepLimpo);
-        console.log("tamanho do cep: ", cepLimpo.length);
+        console.log("cep limpo: ", contexto.cepLimpo);
+        console.log("tamanho do cep: ", contexto.cepLimpo.length);
 
-        if (cepLimpo.length !== 8) {
+        if (contexto.cepLimpo.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); // Usa cepLimpo
+            const response = await axios.get(`https://viacep.com.br/ws/${contexto.cepLimpo}/json/`); // Usa cepLimpo
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
@@ -69,6 +70,8 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
     }
+
+
 
     if (intent === 'Modelos') {
        if (userQuery === ("mayones")) {
