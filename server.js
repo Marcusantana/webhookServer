@@ -145,7 +145,7 @@ app.post('/webhook', async (req, res) => {
             contexto.valorInstrumento = 8614.99;
             contexto.nomeInstrumento = userQuery;
             responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
-
+        }
         else if (userQuery.includes("boden standard"))  {  
             contexto.valorInstrumento = 16561.99;
             contexto.nomeInstrumento = userQuery;
@@ -187,7 +187,7 @@ app.post('/webhook', async (req, res) => {
             contexto.valorInstrumento = 13204.99;
              contexto.nomeInstrumento = userQuery;
             responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
-
+         }
          else if (userQuery.includes("aristides 60")||userQuery.includes("aristides 060")) {  
             contexto.valorInstrumento = 13204.99;
              contexto.nomeInstrumento = userQuery;
@@ -243,7 +243,7 @@ app.post('/webhook', async (req, res) => {
             contexto.valorInstrumento = 4169.99;
              contexto.nomeInstrumento = userQuery;
             responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
-
+         }
           else if (userQuery.includes("azs")) {  
             contexto.valorInstrumento = 13224.99;
               contexto.nomeInstrumento = userQuery;
@@ -329,7 +329,7 @@ app.post('/webhook', async (req, res) => {
             contexto.valorInstrumento = 10579.99;
              contexto.nomeInstrumento = userQuery;
             responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
-
+         }
         else if (userQuery.includes("gibson custom shop")||userQuery.includes("gibson CUSTOM SHOP")) {  
             contexto.valorInstrumento = 24474.99;
             contexto.nomeInstrumento = userQuery;
