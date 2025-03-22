@@ -351,12 +351,15 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins;
         let icms = 0.18 * base_icms;
         let imposto_total = icms + base_icms + contexto.frete;
-        let responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}`;
+        
+        let responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}`;
 
         if (endereco) { // Verifica se 'endereco' foi definido
-            responseText += `\n\n — DADOS DO ENDEREÇO — \n\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
+            responseText += `\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
         }
-        
+
+        responseText += `\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}`;
+
         return res.json({ fulfillmentText: responseText });
     }
 
