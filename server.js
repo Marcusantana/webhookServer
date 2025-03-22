@@ -354,7 +354,7 @@ app.post('/webhook', async (req, res) => {
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         endereco = response.data; 
-        const mensagem = responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nCaso deseje fazer a encomenda do produto basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \nDigite SAIR para refazer o atendimento.`;
+        const mensagem = responseText = `— REVISÃO DOS DADOS — \n\n Confira abaixo todas as informações do seu pedido: \n\n— PRODUTO —\n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nCaso deseje fazer a encomenda do produto basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \nDigite SAIR para refazer o atendimento.`;
     
     return res.json({ fulfillmentText: mensagem });
 }
