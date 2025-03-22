@@ -19,7 +19,7 @@ app.post('/webhook', async (req, res) => {
 
     const intent = req.body.queryResult.intent.displayName;
     const userQuery = req.body.queryResult.queryText.toLowerCase();
-    let responseText = 'O modelo digitado não foi encontrado pelo nosso sistema. Provavelmente o modelo esta disponível no Brasil, para mais informações acesse a página de encomendas e fale com um dos nossos vendedores por e-mail.';
+    let responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, basta digitar o *MODELO desejado. ⌨️🔎';
     const callbackData = req.body.callback_query?.data;
 
     let endereco; 
@@ -59,7 +59,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             endereco = response.data; 
-            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade}\nEstado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
+            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${cepLimpo}: \n\n▸ Rua: ${endereco.logradouro}\n▸ Bairro: ${endereco.bairro}\n▸ Cidade: ${endereco.localidade}\n▸ Estado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
