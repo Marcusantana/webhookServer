@@ -354,9 +354,12 @@ app.post('/webhook', async (req, res) => {
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         endereco = response.data; // Atribui o valor de response.data à variável 'endereco'
-        const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
-return res.json({ fulfillmentText: mensagem });
+        const mensagem = responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
+    
+    return res.json({ fulfillmentText: mensagem });
 }
+
+ return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
 });
 
 app.listen(port, () => {
