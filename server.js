@@ -9,7 +9,8 @@ app.use(bodyParser.json());
 
 const contexto = {
     valorInstrumento: 0,
-    cep : null
+    cep : null,
+    frete : 0
 };
 
 app.post('/webhook', async (req, res) => {
@@ -314,6 +315,14 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Calcular Imposto') {
+
+        if (contexto.cep < 26000000){
+            contexto.frete = 10000000000
+        } 
+        else{
+            contexto.frete = 900000000
+        }
+
         let ipi = 0.10 * contexto.valorInstrumento;
         let ipi_total = contexto.valorInstrumento + ipi;
         let pis = 0.021 * ipi_total
@@ -321,7 +330,7 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins
         let icms = 0.18 * base_icms
         let imposto_total = icms + base_icms
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cep}`;
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cep} O FRETE É ${contexto.frete}`;
         return res.json({ fulfillmentText: responseText });
     }
 
