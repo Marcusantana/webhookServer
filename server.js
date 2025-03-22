@@ -80,14 +80,13 @@ app.post('/webhook', async (req, res) => {
        if (userQuery === ("mayones")) {
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! 😊 Como você não especificou o modelo do seu instrumento, os valores das guitarras \n${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \nPara finalizar o atendimento, digite SAIR.👋`;
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\nPara finalizar o atendimento, digite SAIR. 👋`;
         } // ... (resto das condições) ...
 
         else if (userQuery.includes("standard"))  {  
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Lindo! As guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Lindo! 👏 \nAs guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\nPara finalizar o atendimento, digite SAIR. 👋`;
             
 
         else if (userQuery.includes("qatsi 7")||userQuery.includes("hydra")) {  
@@ -117,7 +116,7 @@ app.post('/webhook', async (req, res) => {
         else if (userQuery.includes("7")) {  
             contexto.valorInstrumento = 19999.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+            responseText = `Aí sim! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         }
 
         else if (userQuery.includes("dirty")) {  
@@ -144,8 +143,7 @@ app.post('/webhook', async (req, res) => {
         if (userQuery === ("strandberg")) {  //STRANDBERG
             contexto.valorInstrumento = 8614.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \n\nPara finalizar o atendimento, digite SAIR.👋`;        }
 
         else if (userQuery.includes("boden standard"))  {  
             contexto.valorInstrumento = 16561.99;
@@ -187,8 +185,7 @@ app.post('/webhook', async (req, res) => {
          if (userQuery === ("aristides")) {  //ARISTIDES
             contexto.valorInstrumento = 13204.99;
              contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \n\nPara finalizar o atendimento, digite SAIR.👋`;        }
 
          else if (userQuery.includes("aristides 60")||userQuery.includes("aristides 060")) {  
             contexto.valorInstrumento = 13204.99;
@@ -244,8 +241,7 @@ app.post('/webhook', async (req, res) => {
          if (userQuery === ("ibanez")) {  //IBANEZ
             contexto.valorInstrumento = 4169.99;
              contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e as SIGNATURE).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \n\nPara finalizar o atendimento, digite SAIR.👋`;        }
 
           else if (userQuery.includes("azs")) {  
             contexto.valorInstrumento = 13224.99;
@@ -286,8 +282,7 @@ app.post('/webhook', async (req, res) => {
         if (userQuery === ("fender")) {  //FENDER
             contexto.valorInstrumento = 3704.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e as SIGNATURE).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \n\nPara finalizar o atendimento, digite SAIR.👋`;        }
         else if (userQuery.includes("stratocaster")||userQuery.includes("strato")) {  
             contexto.valorInstrumento = 4629.99;
             contexto.nomeInstrumento = userQuery;
@@ -330,8 +325,7 @@ app.post('/webhook', async (req, res) => {
          if (userQuery === ("gibson")) {  //GIBSON
             contexto.valorInstrumento = 10579.99;
              contexto.nomeInstrumento = userQuery;
-            responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e as SIGNATURE).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
-        }
+            responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR.✈️ \n\nPara finalizar o atendimento, digite SAIR.👋`;        }
 
         else if (userQuery.includes("gibson custom shop")||userQuery.includes("gibson CUSTOM SHOP")) {  
             contexto.valorInstrumento = 24474.99;
