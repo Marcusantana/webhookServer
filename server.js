@@ -21,7 +21,7 @@ app.post('/webhook', async (req, res) => {
     const userQuery = req.body.queryResult.queryText.toLowerCase();
     const callbackData = req.body.callback_query?.data;
 
-    let endereco; // Declara a variável 'endereco' no escopo da função
+    let endereco; 
 
     if (callbackData === 'buscar_cep') {
         return res.json({
@@ -38,10 +38,10 @@ app.post('/webhook', async (req, res) => {
         console.log("cep recebido: ", contexto.cep);
 
         if (!contexto.cep) {
-            return res.json({ fulfillmentText: "Por favor, informe o CEP." });
+            return res.json({ fulfillmentText: "📍 Para continuar, por favor, informe o CEP." });
         }
 
-        let cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
+        let cepLimpo = contexto.cep.replace(/\D/g, ''); 
 
         console.log("cep limpo: ", cepLimpo);
         console.log("tamanho do cep: ", cepLimpo.length);
@@ -51,14 +51,14 @@ app.post('/webhook', async (req, res) => {
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); // Usa cepLimpo
+            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); 
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
 
-            endereco = response.data; // Atribui o valor de response.data à variável 'endereco'
-            const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            endereco = response.data; 
+            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade}\nEstado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -81,12 +81,12 @@ app.post('/webhook', async (req, res) => {
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
             responseText = `Ótimo! 😊 \nComo você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\nPara finalizar o atendimento, digite SAIR. 👋`;
-        } // ... (resto das condições) ...
+        } 
 
         else if (userQuery.includes("standard"))  {  
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Se deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\n— Para finalizar o atendimento, digite SAIR. 👋`;
+            responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Se deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
 
         else if (userQuery.includes("qatsi 7")||userQuery.includes("hydra")) {  
