@@ -9,6 +9,7 @@ app.use(bodyParser.json());
 
 const contexto = {
     valorInstrumento: 0,
+    nomeInstrumento: null,
     cep: null,
     frete: 0
 };
@@ -72,7 +73,7 @@ app.post('/webhook', async (req, res) => {
     if (intent === 'Modelos') {
        if (userQuery === ("mayones")) {
             contexto.valorInstrumento = 7921.99;
-         
+            contexto.nomeInstrumento = userQuery;
             responseText = `Ótimo! Como você não especificou o modelo, o seu instrumento, as guitarras da ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(contexto.valorInstrumento)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
         } // ... (resto das condições) ...
 
@@ -344,7 +345,7 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins;
         let icms = 0.18 * base_icms;
         let imposto_total = icms + base_icms + contexto.frete;
-        responseText = `— REVISÃO DOS DADOS —: As guitarras começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${cepLimpo} O FRETE É ${formatarMoeda(contexto.frete)}`;
+        responseText = `— REVISÃO DOS DADOS —: As guitarras ${contexto.nomeInstrumento.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${cepLimpo} O FRETE É ${formatarMoeda(contexto.frete)}`;
         return res.json({ fulfillmentText: responseText });
     }
 
