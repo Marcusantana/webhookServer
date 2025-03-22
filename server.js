@@ -320,7 +320,7 @@ app.post('/webhook', async (req, res) => {
             contexto.frete = 129.99
         } 
         else{
-            contexto.frete = 900000000
+            contexto.frete = 129.99
         }
 
         let ipi = 0.10 * contexto.valorInstrumento;
