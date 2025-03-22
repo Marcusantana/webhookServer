@@ -343,8 +343,7 @@ app.post('/webhook', async (req, res) => {
             contexto.frete = 109.99
         }
         else{
-            responseText = `se fudeu`;
-
+            responseText = `O tipo de dado de cepNumerico é: ${typeof cepNumerico}`;
         }
 
         let ipi = 0.10 * contexto.valorInstrumento;
