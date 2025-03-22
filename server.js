@@ -321,7 +321,7 @@ app.post('/webhook', async (req, res) => {
         if (cepNumerico >= 11000000 && cepNumerico <= 19999999|| cepNumerico >= 90000000 && cepNumerico <= 99999999 || cepNumerico >= 88000000 && cepNumerico <= 89999999){
             contexto.frete = 129.99
         } 
-        else if (cepNumerico >= 20000000 && cepNumerico <= 28999999){
+        else if (cepNumerico >= 20000-100 && cepNumerico <= 28999-999){
             contexto.frete = 109.99
         }
         else if (cepNumerico >= 29000000 && cepNumerico <= 29999999|| cepNumerico >= 78000000 && cepNumerico <= 78899999){
