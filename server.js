@@ -319,6 +319,27 @@ app.post('/webhook', async (req, res) => {
         if (contexto.cep >= 11000000 && contexto.cep <= 19999999|| contexto.cep >= 90000000 && contexto.cep <= 99999999 || contexto.cep >= 88000000 && contexto.cep <= 89999999){
             contexto.frete = 129.99
         } 
+        else if (contexto.cep >= 20000000 && contexto.cep <= 28999999){
+            contexto.frete = 109.99
+        }
+        else if (contexto.cep >= 29000000 && contexto.cep <= 29999999|| contexto.cep >= 78000000 && contexto.cep <= 78899999){
+            contexto.frete = 184.99
+        } 
+        else if (contexto.cep >= 30000000 && contexto.cep <= 39999999|| contexto.cep >= 72800000 && contexto.cep <= 72999999 || contexto.cep >= 73700000 && contexto.cep <= 76799999){
+            contexto.frete = 179.99
+        } 
+        else if (contexto.cep >= 80000000 && contexto.cep <= 87999999){
+            contexto.frete = 89.99
+        }
+        else if (contexto.cep >= 40000000 && contexto.cep <= 69999999|| contexto.cep >= 76800000 && contexto.cep <= 76999999 || contexto.cep >= 77000000 && contexto.cep <= 77999999){
+            contexto.frete = 209.99
+        }
+        else if (contexto.cep >= 70000000 && contexto.cep <= 72799999|| contexto.cep >= 73000000 && contexto.cep <= 73699999){
+            contexto.frete = 116.99
+        }  
+        else if (contexto.cep >= 79000000 && contexto.cep <= 79999999){
+            contexto.frete = 109.99
+        }
         else{
             contexto.frete = 129.99
         }
