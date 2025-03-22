@@ -19,7 +19,7 @@ app.post('/webhook', async (req, res) => {
 
     const intent = req.body.queryResult.intent.displayName;
     const userQuery = req.body.queryResult.queryText.toLowerCase();
-    let responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, basta digitar o *MODELO desejado. ⌨️🔎';
+    let responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, digite o MODELO. ⌨️🔎';
     const callbackData = req.body.callback_query?.data;
 
     let endereco; 
@@ -59,7 +59,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             endereco = response.data; 
-            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${contexto.cep}: \n\n📌 Rua: ${endereco.logradouro}\n🏘️ Bairro: ${endereco.bairro}\n🌆 Cidade: ${endereco.localidade}\n🗺️ Estado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
+            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${contexto.cep}: \n\n➤ Rua: ${endereco.logradouro}\n➤ Bairro: ${endereco.bairro}\n➤ Cidade: ${endereco.localidade}\n➤ Estado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -81,7 +81,7 @@ app.post('/webhook', async (req, res) => {
        if (userQuery === ("mayones")) {
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nPara simular impostos e frete, digite SIMULAR. ✈️ \n\nPara finalizar o atendimento, digite SAIR. 👋`;
+            responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         } 
 
         else if (userQuery.includes("standard"))  {  
@@ -395,7 +395,7 @@ app.post('/webhook', async (req, res) => {
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         endereco = response.data; 
-        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n— PRODUTO —\n\n🛒 Equipamento: ${contexto.nomeInstrumento.toUpperCase()}\n💰 Valor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\n🧾 IPI: ${formatarMoeda(ipi)}\n📌 PIS: ${formatarMoeda(pis)}\n📌 COFINS: ${formatarMoeda(cofins)}\n📌 ICMS: ${formatarMoeda(icms)}\n🚛 Frete - Draven CIF: ${formatarMoeda(contexto.frete)}\n\n💲 VALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\n📮 CEP: ${contexto.cep}: \n\n📌 Rua: ${endereco.logradouro}\n🏘️ Bairro: ${endereco.bairro}\n🌆 Cidade: ${endereco.localidade}\n🗺️ Estado: ${endereco.uf}..\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \n\nPara refazer o atendimento, digite SAIR. 👋`;
+        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n🛒— PRODUTO —🛒\n\n Equipamento: ${contexto.nomeInstrumento.toUpperCase()}\n Valor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n🧾— IMPOSTOS —🧾  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\n🚛 Frete - Draven CIF: ${formatarMoeda(contexto.frete)}\n\n💰 VALOR TOTAL:${formatarMoeda(imposto_total)}\n\n 📮— DADOS DO ENDEREÇO —📮 \n\n➤ CEP: ${contexto.cep}: \n➤ Rua: ${endereco.logradouro}\n➤ Bairro: ${endereco.bairro}\n➤ Cidade: ${endereco.localidade}\n➤ Estado: ${endereco.uf}..\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \n\n— Para refazer o atendimento, digite SAIR. 👋`;
     
     return res.json({ fulfillmentText: mensagem });
 }
