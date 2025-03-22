@@ -86,7 +86,7 @@ app.post('/webhook', async (req, res) => {
         else if (userQuery.includes("standard"))  {  
             contexto.valorInstrumento = 7921.99;
             contexto.nomeInstrumento = userQuery;
-            responseText = `Lindo! 👏 \nAs guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\nSe deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\nPara finalizar o atendimento, digite SAIR. 👋`;
+            responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Se deseja simular os impostos de importação e frete, digite SIMULAR. ✈️ \n\n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
 
         else if (userQuery.includes("qatsi 7")||userQuery.includes("hydra")) {  
