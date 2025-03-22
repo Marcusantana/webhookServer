@@ -59,7 +59,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             endereco = response.data; 
-            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${contexto.cep}: \n\n➤ Rua: ${endereco.logradouro}\n➤ Bairro: ${endereco.bairro}\n➤ Cidade: ${endereco.localidade}\n➤ Estado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
+            const mensagem = `📍 Aqui estão os detalhes do endereço para o CEP: ${contexto.cep}: \n\n▶  Rua: ${endereco.logradouro}\n▶  Bairro: ${endereco.bairro}\n▶  Cidade: ${endereco.localidade}\n▶  Estado: ${endereco.uf}.\n\n— Se os dados estiverem corretos, digite CONFIRMAR. ✅\nCaso haja algum erro, digite REENVIAR. 🔄`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -395,7 +395,7 @@ app.post('/webhook', async (req, res) => {
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         endereco = response.data; 
-        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n🛒— PRODUTO —🛒\n\n Equipamento: ${contexto.nomeInstrumento.toUpperCase()}\n Valor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n🧾— IMPOSTOS —🧾  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\n🚛 Frete - Draven CIF: ${formatarMoeda(contexto.frete)}\n\n💰 VALOR TOTAL:${formatarMoeda(imposto_total)}\n\n 📮— DADOS DO ENDEREÇO —📮 \n\n➤ CEP: ${contexto.cep}: \n➤ Rua: ${endereco.logradouro}\n➤ Bairro: ${endereco.bairro}\n➤ Cidade: ${endereco.localidade}\n➤ Estado: ${endereco.uf}..\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \n\n— Para refazer o atendimento, digite SAIR. 👋`;
+        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n🛒— PRODUTO —🛒\n\n●  Equipamento: ${contexto.nomeInstrumento.toUpperCase()}\n💰 VALOR INICIAL: ${formatarMoeda(contexto.valorInstrumento)}\n\n🧾— IMPOSTOS —🧾  \n\n●  IPI: ${formatarMoeda(ipi)}\n●  PIS: ${formatarMoeda(pis)}\n●  COFINS: ${formatarMoeda(cofins)}\n●  ICMS: ${formatarMoeda(icms)}\n●  Frete - Draven CIF: ${formatarMoeda(contexto.frete)}\n💰 VALOR TOTAL:${formatarMoeda(imposto_total)}\n\n 📮— DADOS DO ENDEREÇO —📮 \n\n▶  CEP: ${contexto.cep}: \n▶  Rua: ${endereco.logradouro}\n▶  Bairro: ${endereco.bairro}\n▶  Cidade: ${endereco.localidade}\n▶  Estado: ${endereco.uf}..\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/frontServer/encomende.html \n\n— Para refazer o atendimento, digite SAIR. 👋`;
     
     return res.json({ fulfillmentText: mensagem });
 }
