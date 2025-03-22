@@ -9,8 +9,8 @@ app.use(bodyParser.json());
 
 const contexto = {
     valorInstrumento: 0,
-    cep: null,
-    frete: 0
+    cep : null,
+    frete : 0
 };
 
 app.post('/webhook', async (req, res) => {
@@ -43,7 +43,7 @@ app.post('/webhook', async (req, res) => {
         console.log("cep limpo: ", cepLimpo);
         console.log("tamanho do cep: ", cepLimpo.length);
 
-        if (cepLimpo.length !== 8) {
+        if (contexto.cepLimpo.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
@@ -55,7 +55,7 @@ app.post('/webhook', async (req, res) => {
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            const mensagem = `Aqui está o endereço para o CEP ${contexto.cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -69,7 +69,6 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
     }
-
 
     if (intent === 'Modelos') {
        if (userQuery === ("mayones")) {
