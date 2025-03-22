@@ -353,7 +353,7 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins
         let icms = 0.18 * base_icms
         let imposto_total = icms + base_icms
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cep} O FRETE É ${contexto.frete}`;
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cep} O FRETE É ${contexto.frete} O TIPO DE DADO É ${typeof cepNumerico}`;
         return res.json({ fulfillmentText: responseText });
     }
 
