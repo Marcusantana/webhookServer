@@ -8,7 +8,8 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 const contexto = {
-    valorInstrumento: 0
+    valorInstrumento: 0,
+    cep : null
 };
 
 app.post('/webhook', async (req, res) => {
@@ -28,32 +29,32 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Buscar CEP') {
-        let cep = req.body.queryResult.parameters['zip-code'];
+        contexto.cep = req.body.queryResult.parameters['zip-code'];
 
-        console.log("cep recebido: ", cep);
+        console.log("cep recebido: ", contexto.cep);
 
-        if (!cep) {
+        if (!contexto.cep) {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
         cep = cep.replace(/\D/g, '');
 
-        console.log("cep limpo: ", cep);
-        console.log("tamanho do cep: ", cep.length);
+        console.log("cep limpo: ", contexto.cep);
+        console.log("tamanho do cep: ", contexto.cep.length);
 
         if (cep.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const response = await axios.get(`https://viacep.com.br/ws/${contexto.cep}/json/`);
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            const mensagem = `Aqui está o endereço para o CEP ${contexto.cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -313,23 +314,6 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Calcular Imposto') {
-
-        const response = {
-            fulfillmentMessages: [
-              {
-                payload: {
-                  telegram: {
-                    text: 'Clique no botão para acessar o link:',
-                    reply_markup: {
-                      inline_keyboard: [[{ text: 'Acessar Link', url: 'URL_DO_SEU_LINK' }]],
-                    },
-                  },
-                },
-              },
-            ],
-          };
-          res.send(response)
-
         let ipi = 0.10 * contexto.valorInstrumento;
         let ipi_total = contexto.valorInstrumento + ipi;
         let pis = 0.021 * ipi_total
@@ -337,9 +321,8 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins
         let icms = 0.18 * base_icms
         let imposto_total = icms + base_icms
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento.`;
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${formatarMoeda(contexto.cep)}`;
         return res.json({ fulfillmentText: responseText });
-        
     }
 
     return res.json({ fulfillmentText: "Desculpe, não entendi sua solicitação." });
