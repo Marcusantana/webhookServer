@@ -318,7 +318,7 @@ app.post('/webhook', async (req, res) => {
 
     if (intent === 'Calcular Imposto') {
         
-        const cepNumerico = parseInt(cepLimpo);
+        const cepNumerico = parseInt(contexto.cepLimpo);
 
         if (cepNumerico >= 11000000 && cepNumerico <= 19999999|| cepNumerico >= 90000000 && cepNumerico <= 99999999 || cepNumerico >= 88000000 && cepNumerico <= 89999999){
             contexto.frete = 129.99
