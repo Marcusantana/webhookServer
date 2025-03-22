@@ -21,6 +21,8 @@ app.post('/webhook', async (req, res) => {
     const userQuery = req.body.queryResult.queryText.toLowerCase();
     const callbackData = req.body.callback_query?.data;
 
+    let endereco; // Declara a variável 'endereco' fora do if
+
     if (callbackData === 'buscar_cep') {
         return res.json({
             followupEventInput: {
@@ -55,7 +57,7 @@ app.post('/webhook', async (req, res) => {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
 
-            const endereco = response.data;
+            endereco = response.data; // Atribui o valor de response.data à variável 'endereco'
             const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
@@ -70,6 +72,10 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
     }
+
+
+
+
     if (intent === 'Modelos') {
        if (userQuery === ("mayones")) {
             contexto.valorInstrumento = 7921.99;
@@ -345,7 +351,7 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins;
         let icms = 0.18 * base_icms;
         let imposto_total = icms + base_icms + contexto.frete;
-        responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — `;
+        responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
         return res.json({ fulfillmentText: responseText });
     }
 
