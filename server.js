@@ -316,8 +316,8 @@ app.post('/webhook', async (req, res) => {
 
     if (intent === 'Calcular Imposto') {
 
-        if (contexto.cep < 26000000){
-            contexto.frete = 10000000000
+        if (contexto.cep >= 11000000 && contexto.cep <= 19999999|| contexto.cep >= 90000000 && contexto.cep <= 99999999 || contexto.cep >= 88000000 && contexto.cep <= 89999999){
+            contexto.frete = 129.99
         } 
         else{
             contexto.frete = 900000000
