@@ -343,7 +343,8 @@ app.post('/webhook', async (req, res) => {
             contexto.frete = 109.99
         }
         else{
-            contexto.frete = 129.99
+            responseText = `se fudeu`;
+
         }
 
         let ipi = 0.10 * contexto.valorInstrumento;
