@@ -21,7 +21,7 @@ app.post('/webhook', async (req, res) => {
     const userQuery = req.body.queryResult.queryText.toLowerCase();
     const callbackData = req.body.callback_query?.data;
 
-    let endereco; // Declara a variável 'endereco' fora do if
+    let endereco; // Declara a variável 'endereco' no escopo da função
 
     if (callbackData === 'buscar_cep') {
         return res.json({
@@ -351,7 +351,9 @@ app.post('/webhook', async (req, res) => {
         let base_icms = ipi_total + pis + cofins;
         let icms = 0.18 * base_icms;
         let imposto_total = icms + base_icms + contexto.frete;
+        if (endereco) {
         responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
+        }
         return res.json({ fulfillmentText: responseText });
     }
 
