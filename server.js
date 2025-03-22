@@ -37,17 +37,17 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
-        cep = cep.replace(/\D/g, '');
+        const cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
 
-        console.log("cep limpo: ", contexto.cep);
-        console.log("tamanho do cep: ", contexto.cep.length);
+        console.log("cep limpo: ", cepLimpo);
+        console.log("tamanho do cep: ", cepLimpo.length);
 
-        if (cep.length !== 8) {
+        if (cepLimpo.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${contexto.cep}/json/`);
+            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); // Usa cepLimpo
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
