@@ -353,8 +353,8 @@ app.post('/webhook', async (req, res) => {
         let imposto_total = icms + base_icms + contexto.frete;
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
-        endereco = response.data; // Atribui o valor de response.data à variável 'endereco'
-        const mensagem = responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\nEndereço: ${endereco.logradouro}, ${endereco.bairro}, ${endereco.localidade} - ${endereco.uf}`;
+        endereco = response.data; 
+        const mensagem = responseText = `— REVISÃO DOS DADOS — \n\nEquipamento: ${contexto.nomeInstrumento.toUpperCase()}\nValor inicial: ${formatarMoeda(contexto.valorInstrumento)}\n\n— IMPOSTOS —  \n\nIPI: ${formatarMoeda(ipi)}\nPIS: ${formatarMoeda(pis)}\nCOFINS: ${formatarMoeda(cofins)}\nICMS: ${formatarMoeda(icms)}\nFrete - Draven CIF: ${formatarMoeda(contexto.frete)}\nVALOR TOTAL:${formatarMoeda(imposto_total)}\n\n — DADOS DO ENDEREÇO — \n\n\nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nboaboa`;
     
     return res.json({ fulfillmentText: mensagem });
 }
