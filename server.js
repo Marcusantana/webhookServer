@@ -30,7 +30,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Buscar CEP') {
-        contexto.cep = req.body.queryResult.parameters['zip-code'];
+        contexto.cep = req.body.queryResult.parameters['number'];
 
         console.log("cep recebido: ", contexto.cep);
 
