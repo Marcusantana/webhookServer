@@ -9,9 +9,8 @@ app.use(bodyParser.json());
 
 const contexto = {
     valorInstrumento: 0,
-    cep : null,
-    cepLimpo : null,
-    frete : 0
+    cep: null,
+    frete: 0
 };
 
 app.post('/webhook', async (req, res) => {
@@ -31,7 +30,7 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Buscar CEP') {
-        contexto.cep = req.body.queryResult.parameters['zip-code'];
+        contexto.cep = req.body.queryResult.parameters['number'];
 
         console.log("cep recebido: ", contexto.cep);
 
@@ -39,24 +38,24 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Por favor, informe o CEP." });
         }
 
-        contexto.cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
+        let cepLimpo = contexto.cep.replace(/\D/g, ''); // Limpa o CEP
 
-        console.log("cep limpo: ", contexto.cepLimpo);
-        console.log("tamanho do cep: ", contexto.cepLimpo.length);
+        console.log("cep limpo: ", cepLimpo);
+        console.log("tamanho do cep: ", cepLimpo.length);
 
-        if (contexto.cepLimpo.length !== 8) {
+        if (cepLimpo.length !== 8) {
             return res.json({ fulfillmentText: "O CEP deve ter 8 dígitos." });
         }
 
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${contexto.cepLimpo}/json/`); // Usa cepLimpo
+            const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); // Usa cepLimpo
 
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
 
             const endereco = response.data;
-            const mensagem = `Aqui está o endereço para o CEP ${contexto.cep}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
+            const mensagem = `Aqui está o endereço para o CEP ${cepLimpo}: \nRua: ${endereco.logradouro}\nBairro: ${endereco.bairro}\nCidade: ${endereco.localidade} - ${endereco.uf}.\n\nDigite CONFIRMAR se os dados estiverem corretos ou REENVIAR caso tenha algum dado errado.`;
 
             return res.json({ fulfillmentText: mensagem });
         } catch (error) {
@@ -70,7 +69,6 @@ app.post('/webhook', async (req, res) => {
             return res.json({ fulfillmentText: "Houve um erro ao buscar o CEP. Tente novamente mais tarde." });
         }
     }
-
 
 
     if (intent === 'Modelos') {
@@ -317,45 +315,37 @@ app.post('/webhook', async (req, res) => {
     }
 
     if (intent === 'Calcular Imposto') {
-        
-        const cepNumerico = parseInt(contexto.cepLimpo);
+        let cepLimpo = contexto.cep.replace(/\D/g, '');
+        const cepNumerico = parseInt(cepLimpo);
 
-        if (cepNumerico >= 11000000 && cepNumerico <= 19999999|| cepNumerico >= 90000000 && cepNumerico <= 99999999 || cepNumerico >= 88000000 && cepNumerico <= 89999999){
-            contexto.frete = 129.99
-        } 
-        else if (cepNumerico >= 20000-100 && cepNumerico <= 28999-999){
-            contexto.frete = 109.99
-        }
-        else if (cepNumerico >= 29000000 && cepNumerico <= 29999999|| cepNumerico >= 78000000 && cepNumerico <= 78899999){
-            contexto.frete = 184.99
-        } 
-        else if (cepNumerico >= 30000000 && cepNumerico <= 39999999|| cepNumerico >= 72800000 && cepNumerico <= 72999999 || cepNumerico >= 73700000 && cepNumerico <= 76799999){
-            contexto.frete = 179.99
-        } 
-        else if (cepNumerico >= 80000000 && cepNumerico <= 87999999){
-            contexto.frete = 89.99
-        }
-        else if (cepNumerico >= 40000000 && cepNumerico <= 69999999|| cepNumerico >= 76800000 && cepNumerico <= 76999999 || cepNumerico >= 77000000 && cepNumerico <= 77999999){
-            contexto.frete = 209.99
-        }
-        else if (cepNumerico >= 70000000 && cepNumerico <= 72799999|| cepNumerico >= 73000000 && cepNumerico <= 73699999){
-            contexto.frete = 116.99
-        }  
-        else if (cepNumerico >= 79000000 && cepNumerico <= 79999999){
-            contexto.frete = 109.99
-        }
-        else{
-            responseText = `O tipo de dado de cepNumerico é: ${typeof cepNumerico}`;
+        if (cepNumerico >= 11000000 && cepNumerico <= 19999999 || cepNumerico >= 90000000 && cepNumerico <= 99999999 || cepNumerico >= 88000000 && cepNumerico <= 89999999) {
+            contexto.frete = 129.99;
+        } else if (cepNumerico >= 20000000 && cepNumerico <= 28999999) {
+            contexto.frete = 109.99;
+        } else if (cepNumerico >= 29000000 && cepNumerico <= 29999999 || cepNumerico >= 78000000 && cepNumerico <= 78899999) {
+            contexto.frete = 184.99;
+        } else if (cepNumerico >= 30000000 && cepNumerico <= 39999999 || cepNumerico >= 72800000 && cepNumerico <= 72999999 || cepNumerico >= 73700000 && cepNumerico <= 76799999) {
+            contexto.frete = 179.99;
+        } else if (cepNumerico >= 80000000 && cepNumerico <= 87999999) {
+            contexto.frete = 89.99;
+        } else if (cepNumerico >= 40000000 && cepNumerico <= 69999999 || cepNumerico >= 76800000 && cepNumerico <= 76999999 || cepNumerico >= 77000000 && cepNumerico <= 77999999) {
+            contexto.frete = 209.99;
+        } else if (cepNumerico >= 70000000 && cepNumerico <= 72799999 || cepNumerico >= 73000000 && cepNumerico <= 73699999) {
+            contexto.frete = 116.99;
+        } else if (cepNumerico >= 79000000 && cepNumerico <= 79999999) {
+            contexto.frete = 109.99;
+        } else {
+            contexto.frete = 120009.99;
         }
 
         let ipi = 0.10 * contexto.valorInstrumento;
         let ipi_total = contexto.valorInstrumento + ipi;
-        let pis = 0.021 * ipi_total
+        let pis = 0.021 * ipi_total;
         let cofins = 0.0965 * ipi_total;
-        let base_icms = ipi_total + pis + cofins
-        let icms = 0.18 * base_icms
-        let imposto_total = icms + base_icms
-        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${contexto.cepLimpo} O FRETE É ${contexto.frete} O TIPO DE DADO É ${typeof cepNumerico}`;
+        let base_icms = ipi_total + pis + cofins;
+        let icms = 0.18 * base_icms;
+        let imposto_total = icms + base_icms;
+        responseText = `Ótimo! As guitarras ${userQuery.toUpperCase()} começam com o valor de: ${formatarMoeda(imposto_total)} \nOs valores dos instrumentos estão sujeitos a alteração com os impostos de importação e as mudanças e upgrades no instrumento (tanto standard e os CUSTOM SHOP).\n\nSe deseja simular os impostos de importação e frete digite SIMULAR ou SAIR para finalizar o atendimento. O CEP É: ${cepLimpo} O FRETE É ${contexto.frete}`;
         return res.json({ fulfillmentText: responseText });
     }
 
