@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 const contexto = {
     valorInstrumento: 0,
     nomeInstrumento: null,
-    cep: null,
+    cep: 0,
     frete: 0
 };
 
