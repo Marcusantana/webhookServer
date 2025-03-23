@@ -359,9 +359,9 @@ app.post('/webhook', async (req, res) => {
             contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
-        else{
+        else if (userQuery.includes("strinberg")||userQuery.includes("jackson")||userQuery.includes("prs")||userQuery.includes("epiphone")||userQuery.includes("tagima")||userQuery.includes("strinberg")) {
             responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, digite o MODELO. ⌨️🔎';
-        }
+        }  
 
         return res.json({ fulfillmentText: responseText });
     }
