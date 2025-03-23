@@ -54,11 +54,6 @@ app.post('/webhook', async (req, res) => {
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); 
 
-            
-            if (!contexto.cep) {
-                return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
-            }
-
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
@@ -364,6 +359,9 @@ app.post('/webhook', async (req, res) => {
             contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
+        else{
+            responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, digite o MODELO. ⌨️🔎';
+        }
 
         return res.json({ fulfillmentText: responseText });
     }
@@ -402,7 +400,7 @@ app.post('/webhook', async (req, res) => {
         
         const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`);
         endereco = response.data; 
-        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n🛒— PRODUTO —🛒\n\n🏷️  Equipamento:  ${contexto.nomeInstrumento.toUpperCase()}\n💰 VALOR INICIAL:  ${formatarMoeda(contexto.valorInstrumento)}\n\n🧾— IMPOSTOS —🧾  \n\n▸  IPI:  ${formatarMoeda(ipi)}\n▸  PIS:  ${formatarMoeda(pis)}\n▸  COFINS:  ${formatarMoeda(cofins)}\n▸  ICMS:  ${formatarMoeda(icms)}\n▸  Frete - Draven CIF:  ${formatarMoeda(contexto.frete)}\n💰 VALOR TOTAL:  ${formatarMoeda(imposto_total)}\n\n 📮— DADOS DO ENDEREÇO —📮 \n\n▸  CEP:  ${contexto.cep} \n▸  Rua:  ${endereco.logradouro}\n▸  Bairro:  ${endereco.bairro}\n▸  Cidade:  ${endereco.localidade}\n▸  Estado:  ${endereco.uf}\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/front-endServer/encomende.html \n\n✨ Obrigado por falar com a gente!\n— Para refazer o atendimento, digite SAIR. 👋`;
+        const mensagem = responseText = `✅ Confira abaixo todas as informações do seu pedido: \n\n🛒— PRODUTO —🛒\n\n▸  Equipamento:  ${contexto.nomeInstrumento.toUpperCase()}\n💰 VALOR INICIAL:  ${formatarMoeda(contexto.valorInstrumento)}\n\n🧾— IMPOSTOS —🧾  \n\n▸  IPI:  ${formatarMoeda(ipi)}\n▸  PIS:  ${formatarMoeda(pis)}\n▸  COFINS:  ${formatarMoeda(cofins)}\n▸  ICMS:  ${formatarMoeda(icms)}\n▸  Frete - Draven CIF:  ${formatarMoeda(contexto.frete)}\n💰 VALOR TOTAL:  ${formatarMoeda(imposto_total)}\n\n 📮— DADOS DO ENDEREÇO —📮 \n\n▸  CEP:  ${contexto.cep} \n▸  Rua:  ${endereco.logradouro}\n▸  Bairro:  ${endereco.bairro}\n▸  Cidade:  ${endereco.localidade}\n▸  Estado:  ${endereco.uf}\n\n🔗 Caso deseje fazer a encomenda do produto, basta clicar no link: https://marcusantana.github.io/front-endServer/encomende.html \n\n✨ Obrigado por falar com a gente!\n— Para refazer o atendimento, digite SAIR. 👋`;
     
     return res.json({ fulfillmentText: mensagem });
 }
