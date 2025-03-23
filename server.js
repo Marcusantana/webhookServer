@@ -54,6 +54,11 @@ app.post('/webhook', async (req, res) => {
         try {
             const response = await axios.get(`https://viacep.com.br/ws/${cepLimpo}/json/`); 
 
+            
+            if (!contexto.cep) {
+                return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
+            }
+
             if (response.data && response.data.erro) {
                 return res.json({ fulfillmentText: "O CEP informado não foi encontrado. Verifique e tente novamente." });
             }
