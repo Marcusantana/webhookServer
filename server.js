@@ -364,7 +364,7 @@ app.post('/webhook', async (req, res) => {
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
             
-        else if (userQuery.includes("lespaul")||userQuery.includes("les paul")||userQuery.includes("lps")||userQuery.includes("LPS")||userQuery.includes("LES PAUL")||userQuery.includes("LESPAUL")) {  
+        else if (userQuery.includes("lespaul")||userQuery.includes("gibson les paul")||userQuery.includes("gibson lps")||userQuery.includes("gibson LPS")||userQuery.includes("gibson LES PAUL")||userQuery.includes("gibson LESPAUL")) {  
             contexto.valorInstrumento = 11244.99;
             contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
