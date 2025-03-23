@@ -82,7 +82,7 @@ app.post('/webhook', async (req, res) => {
 
             //TRATAMENTO DE EXCEÇÕES
 
-        if (userQuery.includes("waldman")||userQuery.includes("jackson")||userQuery.includes("prs")||userQuery.includes("epiphone")||userQuery.includes("tagima")||userQuery.includes("strinberg")) {
+        if (userQuery === ("waldman")||userQuery.includes("jackson")||userQuery.includes("prs")||userQuery.includes("epiphone")||userQuery.includes("tagima")||userQuery.includes("strinberg")) {
             responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\nPara buscar outro produto, digite o MODELO. ⌨️🔎';
         } 
 
@@ -294,7 +294,13 @@ app.post('/webhook', async (req, res) => {
             contexto.nomeInstrumento = userQuery;
             responseText = `Como você não especificou o modelo do seu instrumento, os valores das guitarras ${userQuery.toUpperCase()} começam a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
-        
+
+         else if (userQuery.includes("fender signature")) {  
+            contexto.valorInstrumento = 14544.99;
+            contexto.nomeInstrumento = userQuery;
+            responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
+        }
+            
         else if (userQuery.includes("stratocaster")||userQuery.includes("strato")) {  
             contexto.valorInstrumento = 4629.99;
             contexto.nomeInstrumento = userQuery;
@@ -322,11 +328,6 @@ app.post('/webhook', async (req, res) => {
         }
         else if (userQuery.includes("player")) {  
             contexto.valorInstrumento = 6614.99;
-            contexto.nomeInstrumento = userQuery;
-            responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
-        }
-        else if (userQuery.includes("fender signature")) {  
-            contexto.valorInstrumento = 14544.99;
             contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️ \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
