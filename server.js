@@ -82,7 +82,7 @@ app.post('/webhook', async (req, res) => {
 
             //TRATAMENTO DE EXCEÇÕES
 
-        if (userQuery === ("waldman")||userQuery.includes("jackson")||userQuery.includes("prs")||userQuery.includes("epiphone")||userQuery.includes("tagima")||userQuery.includes("strinberg")||userQuery.includes("ibanexz gio")||userQuery.includes("ibanez rg")) {
+        if (userQuery === ("waldman")||userQuery.includes("jackson")||userQuery.includes("prs")||userQuery.includes("prs standard")||userQuery.includes("epiphone")||userQuery.includes("tagima")||userQuery.includes("strinberg")||userQuery.includes("ibanexz gio")||userQuery.includes("ibanez rg")||userQuery.includes("ibanez grg")) {
             responseText = '⚠️ O modelo digitado não foi encontrado em nosso sistema. \n\nProvavelmente, o modelo está disponível no Brasil. Para mais informações, acesse a página de encomendas e fale com um de nossos vendedores por e-mail. 📩\n\n— Para buscar outro produto, digite o *MODELO. ⌨️🔎';
         } 
 
