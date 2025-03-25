@@ -260,12 +260,12 @@ app.post('/webhook', async (req, res) => {
         }
 
           else if (userQuery.includes("rgdms")||userQuery.includes("ibanez rgd series multiscale")||userQuery.includes("ibanez rgd series ms")) {  
-            contexto.valorInstrumento = 7934.99;
+            contexto.valorInstrumento = 9934.99;
               contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️\n— Para buscar outro produto, digite o *MODELO. ⌨️🔎 \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
           else if (userQuery.includes("rgd")) {  
-            contexto.valorInstrumento = 6959.99;
+            contexto.valorInstrumento = 9959.99;
               contexto.nomeInstrumento = userQuery;
             responseText = `As guitarras ${userQuery.toUpperCase()} estão disponíveis a partir de: ${formatarMoeda(contexto.valorInstrumento)}. 🎸💰 \n\n⚠️ Os preços podem variar devido a impostos de importação, mudanças no câmbio e upgrades nos instrumentos (tanto Standard, Custom Shop e os modelos Signature)\n\n— Para simular impostos e frete, digite SIMULAR. ✈️\n— Para buscar outro produto, digite o *MODELO. ⌨️🔎 \n— Para finalizar o atendimento, digite SAIR. 👋`;
         }
